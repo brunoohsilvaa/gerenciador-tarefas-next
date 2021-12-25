@@ -7,5 +7,4 @@ const TaskSchema = new Schema({
     finishDate : {type : Date, required: false}
 });
 
-export const TaskModel = (mongoose.models.tasks 
-    || mongoose.model('tasks', TaskSchema));
+export const TaskModel = (mongoose.models.tasks || mongoose.model('tasks', TaskSchema));

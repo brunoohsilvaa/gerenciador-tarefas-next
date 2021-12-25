@@ -1,7 +1,7 @@
 import md5 from 'md5';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import { connectDb } from '../../middlewares/connectDb';
-import { User } from '../../models/UserModel';
+import { UserModel } from '../../models/UserModel';
 import { DefaultResponseMsg } from '../../types/DefaultResponseMsg';
 import { LoginRequest } from '../../types/LoginRequest';
 import jwt from 'jsonwebtoken';
@@ -16,13 +16,13 @@ const loginEndpoint = async(req : NextApiRequest,
     }
 
     if(req.method === 'POST'){
-        const body = JSON.parse(req.body) as LoginRequest;
+        const body = req.body as LoginRequest;
 
         if(!body || !body.login || !body.password){
             return res.status(400).json({ error : 'Favor informar usuário e senha'});
         }
 
-        const usersFound = await User.find({ name : body.login, password : md5(body.password)});
+        const usersFound = await UserModel.find({ email : body.login, password : md5(body.password)});
         if( usersFound && usersFound.length > 0 ){
             const user = usersFound[0];
             const token = jwt.sign({_id : user._id}, MY_SECRET_KEY);

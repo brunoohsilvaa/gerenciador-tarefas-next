@@ -3,7 +3,7 @@ import { DefaultResponseMsg } from '../../types/DefaultResponseMsg';
 import { UserRequest } from '../../types/UserRequest';
 import { connectDb} from '../../middlewares/connectDb';
 import md5 from 'md5';
-import { User } from '../../models/UserModel';
+import { UserModel } from '../../models/UserModel';
 
 const userEndpoint = async (req : NextApiRequest, res : NextApiResponse<DefaultResponseMsg>) => {
 
@@ -22,7 +22,7 @@ const userEndpoint = async (req : NextApiRequest, res : NextApiResponse<DefaultR
             return res.status(400).json({ error : 'Senha inválida'});
         }
 
-        const existingUserWithEmail = await User.find({email : body.email});
+        const existingUserWithEmail = await UserModel.find({email : body.email});
         if(existingUserWithEmail && existingUserWithEmail.length){
             return res.status(400).json({ error : 'Já existe usuário com o email informado'});
         }
@@ -33,7 +33,7 @@ const userEndpoint = async (req : NextApiRequest, res : NextApiResponse<DefaultR
             password : md5(body.password)
         }
 
-        await User.create(user);
+        await UserModel.create(user);
         return res.status(200).json({ msg : 'Usuario Criado'});
     }
 
