@@ -23,14 +23,3 @@ const Index: NextPage = () => {
 }
 
 export default Index
-
--- _app.tsx
-
-import '../styles/app.scss';
-import type { AppProps } from 'next/app'
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
-
-export default MyApp
